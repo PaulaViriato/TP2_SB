@@ -10,7 +10,7 @@ Parte A:
 
 -> [Concluído] Interrupção
 
--> [50%] Semáforo
+-> [Concluído] Semáforo
 
 
 Parte B:
