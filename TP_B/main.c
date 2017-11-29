@@ -69,36 +69,41 @@ void task1(void)
   while (1) {
       asm ("mov.w r4, TA1R \n\t");
       asm ("mov.w r5, TA1CCR0 \n\t");
-  //    asm ("mov.w r6, P1OUT \n\t");
+      asm ("mov.w r6, P1OUT \n\t");
       asm ("mov.w r7, P1IFG \n\t");
+
       if (TA1R == TA1CCR0){
           P1OUT = P1OUT ^ 0x01;   // Troca o estado do LED vermelho (0x01)
           P1IFG = 0x00;           // Zera flag de interrupcao (00000000)
+          TA1R = 0;
       } else { TA1R++; }
+
       asm ("mov.w  TA1R, r4    \n\t");
       asm ("mov.w  TA1CCR0, r5    \n\t");
-  //    asm ("mov.w  P1OUT, r6    \n\t");
+      asm ("mov.w  P1OUT, r6    \n\t");
       asm ("mov.w  P1IFG, r7    \n\t");
   }
 }
 
 void task2(void)
 {
-  uint16_t i;
   asm ("mov.w  #0x00, r4    \n\t");
-  asm ("mov.w  #0x1770, r5    \n\t");
+  asm ("mov.w  #0x7530, r5    \n\t");
   asm ("mov.w  #0x40, r6    \n\t");
   asm ("mov.w  #0x00, r7    \n\t");
 
   while (1) {
       asm ("mov.w r4, TA1R \n\t");
-      asm ("mov.w r4, TA1R \n\t");
+      asm ("mov.w r5, TA1CCR0 \n\t");
       asm ("mov.w r6, P1OUT \n\t");
       asm ("mov.w r7, P1IFG \n\t");
+
       if (TA1R == TA1CCR0){
-          P1OUT = P1OUT ^ 0x40;   // Troca o estado do LED verde (0x40)
+          P1OUT = P1OUT ^ 0x40;   // Troca o estado do LED vermelho (0x01)
           P1IFG = 0x00;           // Zera flag de interrupcao (00000000)
+          TA1R = 0;
       } else { TA1R++; }
+
       asm ("mov.w  TA1R, r4    \n\t");
       asm ("mov.w  TA1CCR0, r5    \n\t");
       asm ("mov.w  P1OUT, r6    \n\t");
@@ -212,6 +217,7 @@ void main(void)
   TA0CCTL0 = CCIE;               // Habilita interrupção de comparação do timer A           
   TA0CTL = TASSEL_1+MC_1 +ID_2; // ACLK = 32 KHz, ACLK/4 = 8 KHz (0.5 us)
   TA1CCTL0 = CCIE;               // Habilita interrupção de comparação do timer A           
+  TA1CCR0 =  3000;              // Modo up/down: chega no valor e depois volta
   TA1CTL = TASSEL_1+MC_1 +ID_2; // ACLK = 32 KHz, ACLK/4 = 8 KHz (0.5 us)
   TA0CCR0 =  3000;              // Modo up/down: chega no valor e depois volta
                               // para zero, portanto cada interrupção acontece
@@ -228,8 +234,6 @@ void main(void)
 
   RESTORE_CONTEXT();
 }
-
-
 
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void Timer_A (void) {
