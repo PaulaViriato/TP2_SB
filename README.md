@@ -8,12 +8,12 @@ DOCUMENTAÇÃO -> https://git.overleaf.com/12405025qtyxstggvyzn
 Parte A:
 
 
--> [Concluído] Interrupção
+-> [Concluído] Interrupção (Recentemente atualizado)
 
--> [Concluído] Semáforo
+-> [Concluído] Semáforo (Recentemente atualizado)
 
 
 Parte B:
 
 
--> [0%] Escalonador
+-> [20%] Escalonador
